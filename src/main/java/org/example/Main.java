@@ -8,8 +8,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 public class Main extends TelegramLongPollingBot {
-    // BandergusGoitKOIBot
-    // 5919996960:AAFZEJTcllVfxd9iZnO_Gq-wcjoPhUR8-yo
     public static void main(String[] args) throws TelegramApiException {
         TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
         api.registerBot(new Main());
@@ -29,28 +27,29 @@ public class Main extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         Long chatId = getChatId(update);
-
-        SendMessage msg = createMessages("*Hello* World !!! ");
+        SendMessage msg = createMessages("*Hello* " + update.getMessage().getFrom().getFirstName()
+                + " "
+                + update.getMessage().getFrom().getUserName()
+                + " You entered: " + update.getMessage().getText()
+        );
         msg.setChatId(chatId);
         sendApiMethodAsync(msg);
-
     }
 
-    public Long getChatId(Update update){
-        if (update.hasMessage()){
+    public Long getChatId(Update update) {
+        if (update.hasMessage()) {
             return update.getMessage().getFrom().getId();
         }
 
-        if (update.hasCallbackQuery()){
+        if (update.hasCallbackQuery()) {
             return update.getCallbackQuery().getFrom().getId();
         }
         return null;
     }
 
-    public SendMessage createMessages(String text){
+    public SendMessage createMessages(String text) {
         SendMessage message = new SendMessage();
-        message.getM
-        message.setText( text);
+        message.setText(text);
         message.setParseMode("markdown");
         return message;
     }
