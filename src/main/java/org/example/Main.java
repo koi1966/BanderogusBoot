@@ -74,8 +74,8 @@ public class Main extends TelegramLongPollingBot {
 
             attachButtons(messages, Map.of(
                     "Сплести маскувальну сітку (+15 монет)", "level_1_task",
-                    "Зібрати кошти патріотичними піснями (+15 монет)","level_2_task",
-                    "Вступити в Міністерство Мемів України (+15 монет)","level_2_task"
+                    "Зібрати кошти патріотичними піснями (+15 монет)","level_1_task",
+                    "Вступити в Міністерство Мемів України (+15 монет)","level_1_task"
             ));
             sendApiMethodAsync(messages);
         }
@@ -94,13 +94,33 @@ public class Main extends TelegramLongPollingBot {
 
                 attachButtons(messages,Map.of(
                         "Зібрати комарів для нової біологічної зброї (+15 монет)", "level_2_task",
-                        "Пройти курс молодого бійця (+15 монет)", "level_3_task",
+                        "Пройти курс молодого бійця (+15 монет)", "level_2_task",
                         "Задонатити на ЗСУ (+15 монет)", "level_2_task"));
                 sendApiMethodAsync(messages);
 
             }
         }
 
+        if (update.hasCallbackQuery()) {
+            if (update.getCallbackQuery().getData().equals("level_2_task") && getLevel(chatId)== 2) {
+                // increase level
+                setLevels(chatId,3);
+                // Send image
+                sendImage("level-3",chatId);
+                // Send message
+                SendMessage messages = createMessages("*Вітаємо на третьому рівні! Твій гусак - бандеростажер.*\n" +
+                        "Баланс: 35 монет. \n" +
+                        "Обери завдання, щоб перейти на наступний рівень");
+                messages.setChatId(chatId);
+
+                attachButtons(messages,Map.of(
+                        "Злітати на тестовий рейд по чотирьох позиціях (+15 монет)", "level_3_task",
+                        "Відвезти гуманітарку на передок (+15 монет)", "level_3_task",
+                        "Задонатити на ЗСУ (+15 монет)", "level_3_task"));
+                sendApiMethodAsync(messages);
+
+            }
+        }
     }
 
     public Long getChatId(Update update) {
