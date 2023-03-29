@@ -14,7 +14,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
+//1)додайте в кінець файлу build.gradle ось цей фрагмент коду
+//
+//        compileJava.options.encoding = 'UTF-8'
+//        tasks.withType(JavaCompile) {options.encoding = 'UTF-8'}
+//
+//        2)в методі attachButtons змініть
+//        button.setText(new String(buttonName.getBytes(), StandardCharsets.UTF_8));
+//        на button.setText(buttonName);
+//
+//        3)а в методі createMessage змініть
+//        message.setText(new String(text.getBytes(), StandardCharsets.UTF_8));
+//        на message.setText(text);
 public class Main extends TelegramLongPollingBot {
     // BandergusGoitKOIBot
     // 5919996960:AAFZEJTcllVfxd9iZnO_Gq-wcjoPhUR8-yo
@@ -78,7 +89,9 @@ public class Main extends TelegramLongPollingBot {
 
     public SendMessage createMessages(String text) {
         SendMessage message = new SendMessage();
-
+//        3)а в методі createMessage змініть
+//        message.setText(new String(text.getBytes(), StandardCharsets.UTF_8));
+//        на message.setText(text);
         message.setText(new String(text.getBytes(), StandardCharsets.UTF_8) );
         message.setParseMode("markdown");
 //        message.setParseMode("markdown");
@@ -89,6 +102,9 @@ public class Main extends TelegramLongPollingBot {
 
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
         for (String buttonName : buttons.keySet()) {
+//            2)в методі attachButtons змініть
+//            button.setText(new String(buttonName.getBytes(), StandardCharsets.UTF_8));
+//            на button.setText(buttonName);
             String buttonValue = buttons.get(buttonName);
 
             InlineKeyboardButton button = new InlineKeyboardButton();
